@@ -14,10 +14,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "tb_user")
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@NoArgsConstructor()
 public class User {
 
     @Id
@@ -28,7 +25,7 @@ public class User {
     private String name;
 
     @Convert(converter = PhoneConverter.class)
-    @Column(nullable = false, length = 12, unique = true)
+    @Column(nullable = false, length = 14, unique = true)
     private Phone phone;
 
     @Column(nullable = false)
@@ -36,9 +33,9 @@ public class User {
     private Password password;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private ZonedDateTime createdAt;
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updatedAt;
 }
