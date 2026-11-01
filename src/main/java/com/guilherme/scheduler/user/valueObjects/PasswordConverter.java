@@ -8,7 +8,7 @@ public class PasswordConverter implements AttributeConverter<Password, String> {
 
     @Override
     public String convertToDatabaseColumn(Password password) {
-        return password.getValue();
+        return password.value();
     }
 
     @Override
