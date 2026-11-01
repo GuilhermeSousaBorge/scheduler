@@ -1,6 +1,5 @@
 package com.guilherme.scheduler.record;
 
-import com.guilherme.scheduler.SchedulerApplication;
 import com.guilherme.scheduler.enums.AgendamentoStatus;
 
 import java.time.ZonedDateTime;
