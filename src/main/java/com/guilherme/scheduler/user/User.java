@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "tb_user")
 @Getter
-@NoArgsConstructor()
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
@@ -38,4 +38,11 @@ public class User {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updatedAt;
+
+    public User(String name, Phone phone, Password password) {
+        if(name == null || name.isBlank() || name.length() > 150) throw new IllegalArgumentException("Invalid name supplied");
+        this.name = name;
+        this.phone = phone;
+        this.password = password;
+    }
 }
