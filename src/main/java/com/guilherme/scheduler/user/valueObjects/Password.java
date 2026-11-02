@@ -20,7 +20,7 @@ public class Password {
     }
 
     public static Password fromHash(String hash){
-        if(hash == null || hash.isBlank()) throw new InternalError("Erro inesperado");
+        if(hash == null || hash.isBlank()) throw new IllegalStateException("Senha nula ou em branco ao consultar o banco");
 
         return new Password(hash);
     }
