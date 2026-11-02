@@ -1,5 +1,6 @@
 package com.guilherme.scheduler.user;
 
+import com.guilherme.scheduler.shared.exception.InvalidData;
 import com.guilherme.scheduler.user.valueObjects.Password;
 import com.guilherme.scheduler.user.valueObjects.PasswordConverter;
 import com.guilherme.scheduler.user.valueObjects.Phone;
@@ -8,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
@@ -40,7 +42,8 @@ public class User {
     private ZonedDateTime updatedAt;
 
     public User(String name, Phone phone, Password password) {
-        if(name == null || name.isBlank() || name.length() > 150) throw new IllegalArgumentException("Invalid name supplied");
+        if(name == null || name.isBlank()) throw new InvalidData("Nome nao pode ser vazio");
+        if(name.length() > 150) throw new InvalidData("Nome nao pode ter mais de 150 caracteres");
         this.name = name;
         this.phone = phone;
         this.password = password;
