@@ -2,6 +2,7 @@ package com.guilherme.scheduler.shared.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.net.URI;
 
 @RestControllerAdvice
-@Log4j2
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
