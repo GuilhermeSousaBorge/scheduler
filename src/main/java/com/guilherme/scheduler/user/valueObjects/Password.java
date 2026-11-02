@@ -1,6 +1,6 @@
 package com.guilherme.scheduler.user.valueObjects;
 
-import com.guilherme.scheduler.shared.exception.InvalidData;
+import com.guilherme.scheduler.shared.exception.InvalidDataException;
 import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -14,13 +14,13 @@ public class Password {
     }
 
     public static Password create(String raw, PasswordEncoder encoder) {
-        if(raw == null || raw.length() < 8) throw new InvalidData("Senha: minimo 8 caracteres");
+        if(raw == null || raw.length() < 8) throw new InvalidDataException("Senha: minimo 8 caracteres");
 
         return new Password(encoder.encode(raw));
     }
 
     public static Password fromHash(String hash){
-        if(hash == null || hash.isBlank()) throw new InvalidData("Senha nao pode ser vazia");
+        if(hash == null || hash.isBlank()) throw new InternalError("Erro inesperado");
 
         return new Password(hash);
     }

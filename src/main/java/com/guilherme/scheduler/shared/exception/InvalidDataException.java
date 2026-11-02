@@ -2,8 +2,8 @@ package com.guilherme.scheduler.shared.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidData extends BusinessException {
-    public InvalidData(String message) {
+public class InvalidDataException extends BusinessException {
+    public InvalidDataException(String message) {
         super(message, HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,12 +1,12 @@
 package com.guilherme.scheduler.user.valueObjects;
 
-import com.guilherme.scheduler.shared.exception.InvalidData;
+import com.guilherme.scheduler.shared.exception.InvalidDataException;
 
 public record Phone(String number) {
 
     public Phone {
         if (!validate(number)) {
-            throw new InvalidData("Numero invalido");
+            throw new InvalidDataException("Numero invalido");
         }
     }
 
