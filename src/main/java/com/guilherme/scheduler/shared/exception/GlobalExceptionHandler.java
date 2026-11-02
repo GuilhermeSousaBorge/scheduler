@@ -29,4 +29,12 @@ public class GlobalExceptionHandler {
         log.warn("Erro ao processar dados", ex);
         return problem;
     }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleException(Exception ex, HttpServletRequest request) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor");
+        problem.setInstance(URI.create(request.getRequestURI()));
+        log.error("Erro interno do servidor", ex);
+        return problem;
+    }
 }
