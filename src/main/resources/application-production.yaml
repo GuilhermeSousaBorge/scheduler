@@ -12,3 +12,6 @@ spring:
 logging:
   level:
     root: info
+
+jwt:
+  secret: ${JWT_SECRET}
