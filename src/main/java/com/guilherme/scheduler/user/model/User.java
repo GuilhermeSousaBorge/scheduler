@@ -52,6 +52,6 @@ public class User {
         this.name = name;
         this.phone = Objects.requireNonNull(phone, "Telefone nao pode ser nulo/vazio");
         this.role = Role.CLIENT;
-        this.password = Objects.requireNonNull(password, "Senha nao pode ser nulo/vazio");;
+        this.password = Objects.requireNonNull(password, "Senha nao pode ser nulo/vazio");
     }
 }

@@ -1,7 +1,6 @@
 package com.guilherme.scheduler.auth.service;
 
 import com.guilherme.scheduler.auth.dto.LoginRequestDto;
-import com.guilherme.scheduler.shared.config.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

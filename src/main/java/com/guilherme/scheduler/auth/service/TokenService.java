@@ -1,22 +1,25 @@
-package com.guilherme.scheduler.shared.config;
+package com.guilherme.scheduler.auth.service;
 
-import com.nimbusds.jwt.JWTClaimsSet;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-    private final JwtEncoder jwtEncoder;
 
-//    private final JwtEncoder jwtEncoder;
+    @Value("${jwt.expiration}")
+    private Duration jwtExpiration;
+
+    private final JwtEncoder jwtEncoder;
 
     public String generateToken(Authentication authentication) {
 
@@ -25,7 +28,7 @@ public class TokenService {
         List<String> roles = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .map(authority -> authority.replaceFirst("^Role_", ""))
+                .map(authority -> authority.replaceFirst("^ROLE_", ""))
                 .toList();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
