@@ -1,4 +1,4 @@
-package com.guilherme.scheduler.user.valueObjects;
+package com.guilherme.scheduler.user.model.valueObjects;
 
 import com.guilherme.scheduler.shared.exception.InvalidDataException;
 

@@ -1,4 +1,4 @@
-package com.guilherme.scheduler.user.valueObjects;
+package com.guilherme.scheduler.user.model.valueObjects;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
