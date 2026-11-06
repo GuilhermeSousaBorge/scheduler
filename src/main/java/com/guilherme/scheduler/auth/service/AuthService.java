@@ -2,6 +2,7 @@ package com.guilherme.scheduler.auth.service;
 
 import com.guilherme.scheduler.auth.dto.LoginRequestDto;
 import com.guilherme.scheduler.auth.dto.LoginResponseDto;
+import com.guilherme.scheduler.shared.config.CustomUserDetails;
 import com.guilherme.scheduler.shared.exception.ResourceNotFoundException;
 import com.guilherme.scheduler.user.dto.UserResponseDTO;
 import com.guilherme.scheduler.user.model.User;
@@ -14,12 +15,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     @Value("${jwt.expiration}")
-    private Long expiration;
+    private Duration expiration;
 
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
@@ -31,10 +34,13 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(loginRequestDto.phone(), loginRequestDto.password())
         );
 
-        User user = userRepository.findByPhone(new Phone(loginRequestDto.phone())).orElseThrow(() ->
-                new ResourceNotFoundException("Usuario nao encontrado"));
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        UserResponseDTO response = new UserResponseDTO(user.getId(), user.getName(), user.getPhone().number());
-        return new LoginResponseDto(response, tokenService.generateToken(authentication),expiration);
+        UserResponseDTO response = null;
+        if (userDetails != null) {
+            response = new UserResponseDTO(userDetails.getId(), userDetails.getName(), userDetails.getPhone());
+        }
+
+        return new LoginResponseDto(response, tokenService.generateToken(authentication),expiration.getSeconds());
     }
 }

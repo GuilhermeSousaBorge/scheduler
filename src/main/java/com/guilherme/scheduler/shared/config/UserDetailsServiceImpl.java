@@ -20,10 +20,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         User user = userRepository.findByPhone(new Phone(phone)).orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getPhone().number())
-                .password(user.getPassword().getValue())
-                .roles(user.getRole().name())
-                .build();
+        return new CustomUserDetails(
+                user.getId(),
+                user.getName(),
+                user.getPassword().getValue(),
+                user.getPhone().number(),
+                user.getRole()
+        );
     }
 }

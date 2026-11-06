@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    public ProblemDetail handleUnauthorized(BadCredentialsException ex, HttpServletRequest request) {
+    public ProblemDetail handleUnauthorized(AuthenticationException ex, HttpServletRequest request) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Credenciais invalidas");
         problem.setInstance(URI.create(request.getRequestURI()));
         return problem;

@@ -1,5 +1,6 @@
 package com.guilherme.scheduler.auth.service;
 
+import com.guilherme.scheduler.shared.config.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -17,13 +18,16 @@ import java.util.List;
 public class TokenService {
 
     @Value("${jwt.expiration}")
-    private Long jwtExpiration;
+    private Duration jwtExpiration;
 
     private final JwtEncoder jwtEncoder;
 
     public String generateToken(Authentication authentication) {
 
         Instant now = Instant.now();
+
+        CustomUserDetails userDetails =
+                (CustomUserDetails) authentication.getPrincipal();
 
         List<String> roles = authentication.getAuthorities()
                 .stream()
@@ -34,8 +38,8 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("scheduler")
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(jwtExpiration))//1 hora
-                .subject(authentication.getName())
+                .expiresAt(now.plusSeconds(jwtExpiration.getSeconds()))
+                .subject(userDetails.getId().toString())
                 .claim("roles",roles)
                 .build();
 
