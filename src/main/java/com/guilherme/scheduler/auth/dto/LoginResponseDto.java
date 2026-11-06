@@ -7,6 +7,6 @@ import java.time.Duration;
 public record LoginResponseDto(
         UserResponseDTO user,
         String token,
-        Duration expiresIn
+        Long expiresIn
 ) {
 }
