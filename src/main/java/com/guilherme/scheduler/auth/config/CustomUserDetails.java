@@ -1,4 +1,4 @@
-package com.guilherme.scheduler.shared.config;
+package com.guilherme.scheduler.auth.config;
 
 import com.guilherme.scheduler.user.model.enums.Role;
 import lombok.Getter;

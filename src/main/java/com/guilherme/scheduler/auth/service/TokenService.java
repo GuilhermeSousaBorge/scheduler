@@ -1,6 +1,6 @@
 package com.guilherme.scheduler.auth.service;
 
-import com.guilherme.scheduler.shared.config.CustomUserDetails;
+import com.guilherme.scheduler.auth.config.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -45,5 +45,9 @@ public class TokenService {
 
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
         return jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+    }
+
+    public Long getTokenExpiration(){
+        return jwtExpiration.getSeconds();
     }
 }

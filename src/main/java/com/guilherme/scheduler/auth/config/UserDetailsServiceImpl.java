@@ -1,8 +1,6 @@
-package com.guilherme.scheduler.shared.config;
+package com.guilherme.scheduler.auth.config;
 
-import com.guilherme.scheduler.shared.exception.ResourceNotFoundException;
 import com.guilherme.scheduler.user.model.User;
-import com.guilherme.scheduler.user.model.valueObjects.Password;
 import com.guilherme.scheduler.user.model.valueObjects.Phone;
 import com.guilherme.scheduler.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
-        User user = userRepository.findByPhone(new Phone(phone)).orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
+        User user = userRepository.findByPhone(new Phone(phone)).orElseThrow(() -> new UsernameNotFoundException("Usuario nao encontrado"));
         return new CustomUserDetails(
                 user.getId(),
                 user.getName(),
