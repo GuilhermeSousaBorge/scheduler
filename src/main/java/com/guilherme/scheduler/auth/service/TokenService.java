@@ -29,18 +29,12 @@ public class TokenService {
         CustomUserDetails userDetails =
                 (CustomUserDetails) authentication.getPrincipal();
 
-        List<String> roles = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .map(authority -> authority.replaceFirst("^ROLE_", ""))
-                .toList();
-
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("scheduler")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(jwtExpiration.getSeconds()))
                 .subject(userDetails.getId().toString())
-                .claim("roles",roles)
+                .claim("roles",List.of(userDetails.getRole().name()))
                 .build();
 
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
