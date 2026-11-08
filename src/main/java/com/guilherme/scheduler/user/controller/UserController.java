@@ -1,6 +1,6 @@
 package com.guilherme.scheduler.user.controller;
 
-import com.guilherme.scheduler.user.dto.CurrentUser;
+import com.guilherme.scheduler.shared.config.CurrentUser;
 import com.guilherme.scheduler.user.dto.UserRequestDTO;
 import com.guilherme.scheduler.user.dto.UserResponseDTO;
 import com.guilherme.scheduler.user.model.enums.Role;
@@ -9,14 +9,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")

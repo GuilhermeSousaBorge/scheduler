@@ -63,6 +63,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ProblemDetail handleUserNotFound(UserNotFoundException ex, HttpServletRequest request) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        problem.setInstance(URI.create(request.getRequestURI()));
+        return problem;
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleException(Exception ex, HttpServletRequest request) {
         ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Erro interno do servidor");
@@ -70,4 +77,5 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("Erro interno do servidor", ex);
         return problem;
     }
+
 }

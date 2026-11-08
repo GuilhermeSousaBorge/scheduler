@@ -1,4 +1,4 @@
-package com.guilherme.scheduler.user.dto;
+package com.guilherme.scheduler.shared.config;
 
 import com.guilherme.scheduler.user.model.enums.Role;
 
