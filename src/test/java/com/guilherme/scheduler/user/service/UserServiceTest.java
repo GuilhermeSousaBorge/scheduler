@@ -1,7 +1,7 @@
 package com.guilherme.scheduler.user.service;
 
 import com.guilherme.scheduler.shared.config.CurrentUser;
-import com.guilherme.scheduler.shared.exception.UserNotFoundException;
+import com.guilherme.scheduler.user.exception.UserNotFoundException;
 import com.guilherme.scheduler.user.dto.UserResponseDTO;
 import com.guilherme.scheduler.user.mapper.UserMapper;
 import com.guilherme.scheduler.user.model.User;

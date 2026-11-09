@@ -54,4 +54,8 @@ public class User {
         this.role = Role.CLIENT;
         this.password = Objects.requireNonNull(password, "Senha nao pode ser nulo/vazio");
     }
+
+    public void changeRole(Role role){
+        this.role = Objects.requireNonNull(role, "Role nao pode ser nulo/vazio");
+    }
 }

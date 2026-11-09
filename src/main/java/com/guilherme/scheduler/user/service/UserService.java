@@ -1,12 +1,13 @@
 package com.guilherme.scheduler.user.service;
 
-import com.guilherme.scheduler.shared.exception.UserNotFoundException;
+import com.guilherme.scheduler.user.exception.UserNotFoundException;
 import com.guilherme.scheduler.shared.config.CurrentUser;
 import com.guilherme.scheduler.user.dto.UserRequestDTO;
 import com.guilherme.scheduler.user.dto.UserResponseDTO;
 import com.guilherme.scheduler.user.exception.PhoneAlreadyRegisteredException;
 import com.guilherme.scheduler.user.mapper.UserMapper;
 import com.guilherme.scheduler.user.model.User;
+import com.guilherme.scheduler.user.model.enums.Role;
 import com.guilherme.scheduler.user.repository.UserRepository;
 
 import com.guilherme.scheduler.user.model.valueObjects.Password;
@@ -48,7 +49,18 @@ public class UserService {
 
         if(!currentUser.role().canViewOtherProfiles() && !Objects.equals(currentUser.id(), id)) throw new UserNotFoundException();
 
-        User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        User user = getUser(id);
         return userMapper.responseDTO(user);
+    }
+
+
+    @Transactional
+    public void changeRole(Long id, Role role){
+        User user = getUser(id);
+        user.changeRole(role);
+    }
+
+    private User getUser(Long id) throws UserNotFoundException {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 }
