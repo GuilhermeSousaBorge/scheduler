@@ -16,3 +16,9 @@ logging:
 jwt:
   secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:1h}
+
+app:
+  admin:
+    name: ${ADMIN_NAME:}
+    phone: ${ADMIN_PHONE:}
+    password: ${ADMIN_PASSWORD:}
