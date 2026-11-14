@@ -1,5 +1,6 @@
 package com.guilherme.scheduler.user.service;
 
+import com.guilherme.scheduler.user.exception.CannotChangeMyOwnRoleException;
 import com.guilherme.scheduler.user.exception.UserNotFoundException;
 import com.guilherme.scheduler.shared.config.CurrentUser;
 import com.guilherme.scheduler.user.dto.UserRequestDTO;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -53,9 +55,15 @@ public class UserService {
         return userMapper.responseDTO(user);
     }
 
+    @Transactional(readOnly = true)
+    public List<UserResponseDTO> listAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(userMapper::responseDTO).toList();
+    }
 
     @Transactional
-    public void changeRole(Long id, Role role){
+    public void changeRole(Long id, Role role, CurrentUser currentUser) {
+        if(id.equals(currentUser.id())) throw new CannotChangeMyOwnRoleException();
         User user = getUser(id);
         user.changeRole(role);
     }

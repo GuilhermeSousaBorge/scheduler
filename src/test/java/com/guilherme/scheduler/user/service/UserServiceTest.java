@@ -1,6 +1,7 @@
 package com.guilherme.scheduler.user.service;
 
 import com.guilherme.scheduler.shared.config.CurrentUser;
+import com.guilherme.scheduler.user.exception.CannotChangeMyOwnRoleException;
 import com.guilherme.scheduler.user.exception.UserNotFoundException;
 import com.guilherme.scheduler.user.dto.UserResponseDTO;
 import com.guilherme.scheduler.user.mapper.UserMapper;
@@ -21,8 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -114,5 +114,38 @@ public class UserServiceTest {
                 () -> userService.findUserById(OWNER_ID, outroCliente));
 
         assertEquals(excecaoClienteNaoEDono.getMessage(), excecaoIdNaoExiste.getMessage());
+    }
+
+    @Test
+    void adminNaoConsegueMudarOProprioCargo(){
+        var admin = new CurrentUser(ADMIN_ID, Role.ADMIN);
+
+        assertThrows(CannotChangeMyOwnRoleException.class,
+                () -> userService.changeRole(ADMIN_ID, Role.ATTENDANT, admin));
+        verifyNoInteractions(userRepository);
+    }
+
+    @Test
+    void adminMudandoOCargoDeUmIdInexistente(){
+        var admin = new CurrentUser(ADMIN_ID, Role.ADMIN);
+
+        when(userRepository.findById(10L)).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class,
+                () -> userService.changeRole(10L, Role.ATTENDANT, admin));
+        verify(userRepository).findById(10L);
+    }
+
+    @Test
+    void adminMudandoOCargoDeUmIdExistente(){
+        var admin = new CurrentUser(ADMIN_ID, Role.ADMIN);
+
+        User user = new User(
+                "cliente", new Phone("+5534911111111"), Password.fromHash("123456")
+        );
+        when(userRepository.findById(OTHER_ID)).thenReturn(Optional.of(user));
+
+        userService.changeRole(OTHER_ID, Role.ATTENDANT, admin);
+
+        assertEquals(Role.ATTENDANT, user.getRole());
     }
 }
